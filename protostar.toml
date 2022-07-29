@@ -1,0 +1,9 @@
+["protostar.config"]
+protostar_version = "0.2.6"
+
+["protostar.project"]
+libs_path = "lib"
+
+["protostar.contracts"]
+my_contract = ["src/v1.cairo"]
+proxy = [ "./lib/cairo_contracts/src/openzeppelin/upgrades/Proxy.cairo" ]
