@@ -142,7 +142,7 @@ update_proxified_contract() {
 update_proxified_contract_with_migration() {
     path_to_implementation=$1
     implementation_class_hash=$2
-    migration_class_hash=$2
+    migration_class_hash=$3
     proxy_address=$4
 
     # initialize contract and set admin
@@ -175,6 +175,8 @@ deploy_proxified_contract() {
             `update_proxified_contract ./build/${contract}_abi.json $implementation_class_hash $proxy_address` || exit_error
         fi
     fi
+
+    echo $proxy_address
 }
 
 # Deploy all contracts and log the deployed addresses in the cache file

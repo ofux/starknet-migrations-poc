@@ -10,25 +10,35 @@ end
 @view
 func get_ab{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}() -> (res : felt):
     let (res) = ab.read()
+    ab.write(res + 1)
     return (res)
 end
 
 #
 # Proxy / Upgrades
 #
+@external
+func initializer{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+    proxy_admin : felt
+):
+    migrable_proxy.initializer(proxy_admin)
+    return ()
+end
 
 @view
 func implementation{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}() -> (
-    address : felt
+    hash : felt
 ):
-    return migrable_proxy.get_implementation()
+    let (hash) = migrable_proxy.get_implementation()
+    return (hash)
 end
 
 @view
 func proxy_admin{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}() -> (
     admin : felt
 ):
-    return migrable_proxy.get_proxy_admin()
+    let (admin) = migrable_proxy.get_proxy_admin()
+    return (admin)
 end
 
 @external

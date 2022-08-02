@@ -14,7 +14,9 @@ func migrations_done(migration_hash : felt) -> (res : felt):
 end
 
 namespace migration:
-    func execute(migration_hash : felt):
+    func execute{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+        migration_hash : felt
+    ):
         assert_execute_only_once(migration_hash)
         IMigration.library_call_migrate(migration_hash)
         return ()

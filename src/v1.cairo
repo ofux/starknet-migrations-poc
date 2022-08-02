@@ -1,6 +1,7 @@
 %lang starknet
 from starkware.cairo.common.math import assert_nn
 from starkware.cairo.common.cairo_builtins import HashBuiltin
+from migration_library import migrable_proxy
 
 @storage_var
 func a() -> (res : felt):
@@ -14,25 +15,37 @@ end
 func get_ab{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}() -> (res : felt):
     let (val_a) = a.read()
     let (val_b) = b.read()
+    a.write(val_a + 1)
+    b.write(val_b + 1)
     return (val_a * val_b)
 end
+get_totot
 
 #
 # Proxy / Upgrades
 #
+@external
+func initializer{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
+    proxy_admin : felt
+):
+    migrable_proxy.initializer(proxy_admin)
+    return ()
+end
 
 @view
 func implementation{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}() -> (
-    address : felt
+    hash : felt
 ):
-    return migrable_proxy.get_implementation()
+    let (hash) = migrable_proxy.get_implementation()
+    return (hash)
 end
 
 @view
 func proxy_admin{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}() -> (
     admin : felt
 ):
-    return migrable_proxy.get_proxy_admin()
+    let (admin) = migrable_proxy.get_proxy_admin()
+    return (admin)
 end
 
 @external

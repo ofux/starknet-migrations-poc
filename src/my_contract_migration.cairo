@@ -18,6 +18,6 @@ end
 func migrate{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}():
     let (val_a) = a.read()
     let (val_b) = b.read()
-    ab.write(val_a * val_b)
+    ab.write(val_a * val_b + 1000)
     return ()
 end
